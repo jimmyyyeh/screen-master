@@ -24,7 +24,7 @@ from configparser import ConfigParser, SectionProxy
 class BuildScreen:
     """
     USAGE:
-        python3 build_screen.py -s [section]
+        sbuild -s [section]
         -s section:
             build screen with specific section in config.ini
         -h help:
@@ -103,6 +103,9 @@ class BuildScreen:
     def main(cls):
         opts, args = getopt(sys.argv[1:], 'h-s:', ['help=', 'section='])
         opts_dict = dict(opts)
+
+        if '-h' in opts_dict:
+            sys.exit(cls.__doc__)
 
         if not os.path.exists('config.ini'):
             sys.exit('config.ini not found')
