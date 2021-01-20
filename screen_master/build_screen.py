@@ -18,7 +18,7 @@
 import os
 import sys
 from getopt import getopt
-from configparser import ConfigParser
+from configparser import ConfigParser, SectionProxy
 
 
 class BuildScreen:
@@ -43,7 +43,7 @@ class BuildScreen:
     """
 
     @staticmethod
-    def _load_config(section):
+    def _load_config(section=None):
         """
         load config in config.ini with specific section
         :param section:
@@ -51,9 +51,12 @@ class BuildScreen:
         """
         config = ConfigParser()
         config.read('config.ini')
-        if section not in config:
-            sys.exit(f'section not found in config {section}')
-        return config[section]
+        if not section:
+            return config
+        else:
+            if section not in config:
+                sys.exit(f'section not found in config {section}')
+            return config[section]
 
     @staticmethod
     def _init_screen(section):
@@ -81,14 +84,14 @@ class BuildScreen:
         os.system(f'screen -x -S {section} -p {window} -X stuff "\n"')
 
     @classmethod
-    def _build_screen(cls, section, config):
+    def _build_screen(cls, section, section_config):
         """
         build screen with config
         :param section:
-        :param config:
+        :param section_config:
         :return:
         """
-        for window, command_string in config.items():
+        for window, command_string in section_config.items():
             # create new window with title
             os.system(f'screen -S {section} -X screen -t {window}')
             for command in command_string.split(';'):
@@ -97,22 +100,27 @@ class BuildScreen:
                                            command=command)
 
     @classmethod
-    def run(cls):
+    def main(cls):
         opts, args = getopt(sys.argv[1:], 'h-s:', ['help=', 'section='])
         opts_dict = dict(opts)
 
-        if '-s' not in opts_dict:
-            sys.exit(cls.__doc__)
-        if not os.path.exists('../config.ini'):
+        if not os.path.exists('config.ini'):
             sys.exit('config.ini not found')
 
-        section = opts_dict['-s']
+        section = opts_dict.get('-s')
         config = cls._load_config(section=section)
 
-        cls._init_screen(section=section)
-        cls._build_screen(section=section,
-                          config=config)
+        if isinstance(config, SectionProxy):
+            cls._init_screen(section=section)
+            cls._build_screen(section=section,
+                              section_config=config)
+        else:
+            for section in config.sections():
+                section_config = config[section]
+                cls._init_screen(section=section)
+                cls._build_screen(section=section,
+                                  section_config=section_config)
 
 
 if __name__ == '__main__':
-    BuildScreen.run()
+    BuildScreen.main()
