@@ -51,7 +51,7 @@ class EnterScreen:
             sys.exit(cls.__doc__)
 
         if isinstance(screen_name, list):
-            list(map(cls._enter_screen, screen_name))
+            sys.exit('please input screen index')
         else:
             cls._enter_screen(screen_name=screen_name)
 
