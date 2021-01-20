@@ -36,7 +36,9 @@ setuptools.setup(
     ],
     entry_points={
         'console_scripts': [
-            'sbuild = screen_master:BuildScreen.main'
+            'sbuild = screen_master:BuildScreen.main',
+            'skill = screen_master:KillScreen.main',
+            'srun = screen_master:EnterScreen.main',
         ]
     },
     python_requires='>=3.6',
