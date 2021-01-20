@@ -24,7 +24,7 @@ setuptools.setup(
     version='0.0.1',
     author='Jimmy Yeh',
     author_email='chienfeng0719@hotmail.com',
-    description='A tool for build screen automatically',
+    description='A tool for build GNU screen automatically',
     long_description=long_description,
     long_description_content_type='text/markdown',
     url='https://github.com/chienfeng0719/screen-master',
