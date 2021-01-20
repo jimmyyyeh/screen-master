@@ -1,6 +1,17 @@
 test.py
+
+# mac
 .DS_Store
+
+# pycharm
 **/__pycache__/
 .idea/*
+
+# pypi
+**/build/**
+**/dist/**
+**/screen_master.egg-info/**
+
+# config
 **.ini
 !config-example.ini
