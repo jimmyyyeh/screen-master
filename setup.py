@@ -21,10 +21,10 @@ with open('README.md', 'r') as f:
 
 setuptools.setup(
     name='screen-master',
-    version='0.0.1',
+    version='0.0.2',
     author='Jimmy Yeh',
     author_email='chienfeng0719@hotmail.com',
-    description='A tool for build GNU screen automatically',
+    description='A cli tool for interact with GNU screen more easily',
     long_description=long_description,
     long_description_content_type='text/markdown',
     url='https://github.com/chienfeng0719/screen-master',
